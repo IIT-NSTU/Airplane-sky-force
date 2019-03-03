@@ -49,8 +49,6 @@ public class SkyForce_Frame {
      public Canvas getCanvas(){
         return canvas;
      }
-     public static void main(String[] args) {
-    	 new SkyForce_Frame("Sky Force ",500,600);
-     }
+    
 
 }
