@@ -27,11 +27,11 @@ public class Player implements KeyListener {
 	}
     }
 		if(x<Game_Maintaining.gameWidth+50-30)
-	if(right) {
-		x=x+4;
-	}
+			if(right) {
+				x=x+4;
+			}
 		
-	}
+		}
 	public void render(Graphics g) {
 		g.setColor(Color.green);
 		g.fillRect(x, y, 30, 30);
