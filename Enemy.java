@@ -2,6 +2,7 @@ package SkyForce_MainFrame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 
 public class Enemy {
 	
@@ -22,7 +23,12 @@ public class Enemy {
 	    y += 1;
 	    }
 	    public void render(Graphics g){
-	    	g.setColor(Color.BLUE);
+	    	Random random=new Random();
+	    	int a=random.nextInt(255)+1;
+	    	int b=random.nextInt(255)+1;
+	    	int c=random.nextInt(255)+1;
+	    	
+	    	g.setColor(new Color(a,b,c));
 	    g.fillOval(x, y, 20, 20);
 	    }
 	    
