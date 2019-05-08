@@ -2,11 +2,12 @@ package SkyForce_MainFrame;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 
 public class Bullet {
 	private int x;
 	private int y;
-	private  int motion;
+	private static int motion;
 	public Bullet(int x,int y){
 		this.x=x;
 		this.y=y;
@@ -19,6 +20,10 @@ public class Bullet {
 		return y;
 	}
 	
+	public void setMotion(int Bylabel) {
+		motion=Bylabel;
+	}
+	
 	public void init() {
 		
 	}
@@ -27,7 +32,11 @@ public class Bullet {
 		
 	}
 	public void render(Graphics g) {
-		g.setColor(Color.yellow);
+		Random random=new Random();
+		int R=random.nextInt(255);
+		int G=random.nextInt(255);
+		int B=random.nextInt(255);
+		g.setColor(new Color(R,G,B));
 		g.fillRect(x, y, 6, 10);
 	}
 
