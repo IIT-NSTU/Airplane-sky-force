@@ -11,70 +11,79 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Player implements KeyListener {
-	private int x;
-	private int y;
-	 private boolean left ,right;
-	 private boolean up,down;
-	 private boolean attack;
-	 private SkyForce_Frame display;
-	 private gameManager manager;
-     private long present;
-     private long late;
-     private static int strength;
-	public Player(int x_point,int y_point) {
-		this.x=x_point;
-		this.y=y_point;
+	private int xPos;
+	private int yPos;
+	
+	private boolean isLeft, isRight;
+	private boolean isUp, isDown;
+	private boolean attack;
+	
+	private SkyForce_Frame display;
+	private gameManager manager;
+	
+	private long present;
+	private long late;
+	private static int strength;
+	
+	public Player(int xPoint, int yPoint) {
+		this.xPos = xPoint;
+		this.yPos = yPoint;
 	}
+	
 	public int getX() {
 		return x;
 	}
+	
 	public int getY() {
 		return y;
 	}
+	
 	public void init() {
 		present=System.nanoTime();
-		late=100;
-		strength=2;
+		late = 100;
+		strength = 2;
+		
 		display.frame.addKeyListener(this);
 		ImageClass.init();
-		
 	}
-	public void tick() {
-		  if(!(strength<=0)){
-	if(left) {
-		if(x>50) {
-		x=x-5;
-	}
-	}
-		
-	if(right) {
-		if(x<Game_Maintaining.gameWidth-5)
-		{
 	
-		x=x+3;
-	}
-	}
-	if(up) {
-		if(y>50) {
-			y=y-3;
-		}
-	}
-	if(down) {
-		if(y<393) {
-			y+=5;
-		}
-	}
-		if(attack) {
-			long wait=(System.nanoTime()-present)/1000000;
-			if(wait>late) {
-			manager.bullet.add(new Bullet(x+25,y));
-		}
-			present=System.nanoTime();
-		}
-		  }
-	}
-	//}
+	public void tick() {
+		if(!(strength<=0)) {
+			if(left) {
+				if(x>50) {
+					x = x - 5;
+				}
+			}
+			
+			if(right) {
+				if(x<Game_Maintaining.gameWidth-5) {
+					x = x + 3;
+				}
+			}
+			
+			if(up) {
+				if(y>50) {
+					y=y-3;
+				}
+			}
+			
+			if(down) {
+				if(y<393) {
+					y+=5;
+				}
+			}
+			
+			if(attack) {
+				long wait=(System.nanoTime()-present)/1000000;
+				if(wait>late) {
+					manager.bullet.add(new Bullet(x+25,y));
+				}
 
+				present=System.nanoTime();
+			}
+		}
+	}
+	
 	public void render(Graphics g) {
 		if(!(strength<=0)) {
 		//g.drawImage(ImageClass.player,x, y, 50, 50, null);
