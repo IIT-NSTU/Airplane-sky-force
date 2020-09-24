@@ -31,13 +31,17 @@ public class Bullet {
 		y-=motion;
 		
 	}
-	public void render(Graphics g) {
-		Random random=new Random();
-		int R=random.nextInt(255);
-		int G=random.nextInt(255);
-		int B=random.nextInt(255);
-		g.setColor(new Color(R,G,B));
+	public void render(Graphics g) {		
+		g.setColor(randomColor());
 		g.fillRect(x, y, 6, 10);
+	}
+	
+	private Color randomColor() {
+		Random random=new Random();
+		int r = random.nextInt(255);
+		int g = random.nextInt(255);
+		int b = random.nextInt(255);
+		return new Color(r, g, b);
 	}
 
 }
