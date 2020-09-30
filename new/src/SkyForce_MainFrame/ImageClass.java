@@ -15,7 +15,6 @@ public class ImageClass {
     public static void init() {
         // image=imageLoader("/background.jpg");
         CombineImg = imageLoader("/sky-airplane.png");
-        // enemy=CombineImg.getSubimage(0, 0, 115, 95);
 
         //open enemies image
         enemy1 = imageLoader("/plane1.png");
@@ -37,9 +36,7 @@ public class ImageClass {
 
     public static BufferedImage imageLoader(String path) {
         try {
-            return
-                    ImageIO.read(ImageClass.class.
-                            getResource(path));
+            return ImageIO.read(ImageClass.class.getResource(path));
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
