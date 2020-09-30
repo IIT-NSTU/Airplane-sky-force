@@ -9,6 +9,7 @@ public class Game_Maintaining implements Runnable {
 
     public static final int gameWidth = 400;
     public static final int gameHeight = 400;
+    
     public SkyForce_Frame display;
     private String title;
     private int width;
@@ -23,11 +24,9 @@ public class Game_Maintaining implements Runnable {
     private BufferedImage image;
 
     public Game_Maintaining(String title, int width, int height) {
-
         this.title = title;
         this.width = width;
         this.height = height;
-
     }
 
     public void init() {
@@ -39,18 +38,20 @@ public class Game_Maintaining implements Runnable {
     public synchronized void start() {
         if (running)
             return;
+
         running = true;
         if (thread == null) {
             thread = new Thread(this);
             thread.start();
         }
-
     }
 
     public synchronized void stop() {
         if (!(running))
             return;
+
         running = false;
+
         try {
             thread.join();
         } catch (InterruptedException e) {
@@ -63,7 +64,6 @@ public class Game_Maintaining implements Runnable {
     }
 
     public void render() {
-
         buffer = display.getCanvas().getBufferStrategy();
         if (buffer == null) {
             display.getCanvas().createBufferStrategy(3);
@@ -71,7 +71,6 @@ public class Game_Maintaining implements Runnable {
         }
 
         g = buffer.getDrawGraphics();
-
         g.clearRect(0, 0, width, height);
         // draw
         // g.setColor(Color.GRAY);
@@ -91,13 +90,9 @@ public class Game_Maintaining implements Runnable {
         }
         g.drawImage(image, 50, 50, gameWidth, gameHeight, null);
         manager.render(g);
-        // menu
-
-        // end of draw
 
         buffer.show();
         g.dispose();
-
     }
 
     public void run() {
@@ -109,7 +104,6 @@ public class Game_Maintaining implements Runnable {
         long current = System.nanoTime();
 
         while (running) {
-
             delta = delta + (System.nanoTime() - current) / timePerTick;
             current = System.nanoTime();
             if (delta >= 1) {
@@ -117,7 +111,6 @@ public class Game_Maintaining implements Runnable {
                 render();
                 delta--;
             }
-
         }
     }
 }
