@@ -15,33 +15,20 @@ import java.io.Reader;
 
 public class Home {
 
+    public static final String lastScoreFilePath = "C:\\Users\\IIT\\newscore.txt";
+    public static final int GameWidth = 400;
+    public static final int GameHeight = 400;
     public static JFrame frame;
-    private static Game_Maintaining gamemaintainframe;
-    private static Reader file;
-    private static StringBuffer str;
-    private static gameManager manager;
-    private static Main_Class mainclass;
-    private static StringBuilder stringbuilder;
-    public ImageClass img;
-    private SkyForce_Frame game;
-    private Container c;
 
-    /**
-     * Create the application.
-     */
     public Home() {
-        initialize();
+        initializeGUI();
     }
 
-    /**
-     * Launch the application.
-     */
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
                     Home window = new Home();
-                    window.frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -49,108 +36,107 @@ public class Home {
         });
     }
 
-    /**
-     * Initialize the contents of the frame.
-     */
-    private void initialize() {
+    private void initializeGUI() {
         frame = new JFrame();
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                int option = JOptionPane.showConfirmDialog(frame, "Are You want to leave?");
-                if (option == JOptionPane.YES_OPTION) {
-                    frame.dispose();
-                } else if (option == JOptionPane.NO_OPTION) {
+        JButton btnPlay = new JButton("Play");
+        JButton btnLastScore = new JButton("Last Score");
+        JButton btnHelp = new JButton("Help");
+        JButton btnExit = new JButton("Exit");
 
-                }
-            }
-        });
-//		frame.getContentPane().setFont(new Font("Tahoma", Font.ITALIC, 11));
-//		frame.getContentPane().setForeground(new Color(128, 0, 128));
-        frame.setBackground(new Color(230, 230, 250));
+        Component[] buttonList = {btnPlay, btnLastScore, btnHelp, btnExit};
+
+        frame.addWindowListener(new CloseWindowAdapter());
+        frame.getContentPane().setForeground(Color.BLACK);
+        frame.setBackground(Color.WHITE);
         frame.setOpacity(1.0f);
         frame.setResizable(false);
         frame.setTitle("Airplane SkyForce");
-        frame.setBounds(300, 200, gamemaintainframe.gameWidth, gamemaintainframe.gameHeight);
+        frame.setBounds(300, 200, GameWidth, GameHeight);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
-        JButton btnNewButton = new JButton("Play");
-        btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 15));
-        btnNewButton.setForeground(new Color(128, 0, 128));
-        btnNewButton.setBackground(new Color(119, 136, 153));
-        btnNewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                gamemaintainframe = new Game_Maintaining(" ", 500, 600);
-                gamemaintainframe.start();
-                frame.setVisible(false);
 
-            }
-        });
-        btnNewButton.setBounds(131, 102, 147, 34);
-        frame.getContentPane().add(btnNewButton);
-        JButton btnNewButton_2 = new JButton("Last Score");
-        btnNewButton_2.setBackground(new Color(112, 128, 144));
-        btnNewButton_2.addActionListener(new ActionListener() {
+        btnPlay.addActionListener(new PlayActionListener());
+        btnPlay.setForeground(Color.BLACK);
+        btnPlay.setBounds(131, 102, 147, 34);
 
-            public void actionPerformed(ActionEvent e) {
+        btnLastScore.addActionListener(new ShowLastScoreActionListener());
+        btnLastScore.setForeground(Color.DARK_GRAY);
+        btnLastScore.setBounds(131, 147, 147, 34);
 
-                try {
-                    file = new FileReader("C:\\Users\\IIT\\newscore.txt");
-                    BufferedReader reader = new BufferedReader(file);
-                    stringbuilder = new StringBuilder();
-                    String line = null;
+        btnHelp.addActionListener(new HelpActionListener());
+        btnHelp.setForeground(Color.BLUE);
+        btnHelp.setBounds(131, 192, 147, 34);
 
-                    while ((line = (reader.readLine())) != null) {
-                        stringbuilder.append(line);
-                    }
+        btnExit.addActionListener(new ExitActionListener());
+        btnExit.setForeground(Color.RED);
+        btnExit.setBounds(131, 240, 147, 34);
 
-                } catch (IOException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-                // Integer.parseInt(stringbuilder.toString());
+        for (Component component : buttonList) {
+            component.setFont(getTahomaBoldFont());
+            component.setBackground(getButtonBackgroundColor());
+            frame.getContentPane().add(component);
+        }
 
-                JOptionPane.showMessageDialog(frame, "Height Score is: " + Integer.parseInt(stringbuilder.toString()),
-                        " SkyForce Score Board", JOptionPane.CLOSED_OPTION);
-
-            }
-
-        });
-        btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-        btnNewButton_2.setForeground(new Color(139, 0, 139));
-        btnNewButton_2.setBounds(131, 147, 147, 34);
-        frame.getContentPane().add(btnNewButton_2);
-//
-
-        JButton help = new JButton("Help");
-        help.setBackground(new Color(112, 128, 144));
-        help.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                new HelpAbout();
-            }
-        });
-        help.setForeground(new Color(128, 0, 0));
-        help.setFont(new Font("Tahoma", Font.BOLD, 15));
-        help.setBounds(131, 192, 147, 34);
-        frame.getContentPane().add(help);
-
-        //
-        JButton btnNewButton_1 = new JButton("Exit");
-        btnNewButton_1.setBackground(new Color(112, 128, 144));
-        btnNewButton_1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                System.exit(0);
-            }
-        });
-        btnNewButton_1.setForeground(new Color(128, 0, 0));
-        btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-        btnNewButton_1.setBounds(131, 240, 147, 34);
-        frame.getContentPane().add(btnNewButton_1);
-        frame.getContentPane().setFocusTraversalPolicy(
-                new FocusTraversalOnArray(new Component[]{btnNewButton, btnNewButton_1, btnNewButton_2}));
-        frame.setFocusTraversalPolicy(new FocusTraversalOnArray(
-                new Component[]{help, btnNewButton_1, btnNewButton_2, frame.getContentPane(), btnNewButton}));
+        frame.setFocusTraversalPolicy(new FocusTraversalOnArray(buttonList));
         frame.setVisible(true);
     }
 
+    private Color getButtonBackgroundColor() {
+        return Color.LIGHT_GRAY;
+    }
+
+    private Font getTahomaBoldFont() {
+        return new Font("Tahoma", Font.BOLD, 15);
+    }
+
+    private class PlayActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            Game_Maintaining gameMaintainer = new Game_Maintaining("Airplane Skyforce", 500, 600);
+            gameMaintainer.start();
+            frame.setVisible(false);
+        }
+    }
+
+    private class ShowLastScoreActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            StringBuilder fileContents = new StringBuilder();
+            String line = null;
+
+            try {
+                FileReader fileReader = new FileReader(lastScoreFilePath);
+                BufferedReader fileBufferReader = new BufferedReader(fileReader);
+
+                while ((line = (fileBufferReader.readLine())) != null) {
+                    fileContents.append(line);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            JOptionPane.showMessageDialog(frame,
+                    "Height Score is: " + Integer.parseInt(fileContents.toString()),
+                    "SkyForce Score Board", JOptionPane.CLOSED_OPTION);
+        }
+    }
+
+    private class HelpActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            new HelpAbout();
+        }
+    }
+
+    private class ExitActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent event) {
+            System.exit(0);
+        }
+    }
+
+    private class CloseWindowAdapter extends WindowAdapter {
+        public void windowClosing(WindowEvent event) {
+            int option = JOptionPane.showConfirmDialog(frame, "Do you want to leave?");
+            if (option == JOptionPane.YES_OPTION) {
+                frame.dispose();
+            }
+        }
+    }
 }
